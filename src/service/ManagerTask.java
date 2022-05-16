@@ -1,26 +1,18 @@
 package service;
 
-import model.AbstractTask;
-import model.Epic;
-import model.SubTask;
-import model.Task;
+import model.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static service.Status.*;
+import static model.Status.*;
 
 public class ManagerTask {
-    private int taskID = 0;
     private final Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, SubTask> subTasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
 
     private IdGenerator idGenerator = new IdGenerator();
-
-    public int getTaskID() {
-        return taskID;
-    }
 
     public Map<Integer, Task> getTasks() {
         return tasks;

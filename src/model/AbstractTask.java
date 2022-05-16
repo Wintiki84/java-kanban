@@ -1,7 +1,5 @@
 package model;
 
-import service.Status;
-
 public abstract class AbstractTask {
 
     private int id;

@@ -1,10 +1,10 @@
 package service;
 
 public class IdGenerator {
-    private int taskID;
+    private int taskId;
 
     public int getNewId(){
-        this.taskID++;
-        return taskID;
+        this.taskId++;
+        return taskId;
     }
 }

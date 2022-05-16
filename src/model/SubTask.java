@@ -1,7 +1,5 @@
 package model;
 
-import service.Status;
-
 public class SubTask extends AbstractTask {
     Integer epicId;
 

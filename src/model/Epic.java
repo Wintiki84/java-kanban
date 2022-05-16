@@ -1,7 +1,5 @@
 package model;
 
-import service.Status;
-
 import java.util.ArrayList;
 import java.util.List;
 

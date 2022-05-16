@@ -2,8 +2,7 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 import service.ManagerTask;
-import service.Status;
-import service.TypeTask;
+import model.Status;
 
 import java.util.*;
 
