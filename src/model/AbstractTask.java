@@ -1,7 +1,12 @@
+package model;
+
+import service.Status;
+
 public abstract class AbstractTask {
+
+    private int id;
     private String name;
     private String description;
-    private Integer id;
     private Status status;
 
     public AbstractTask(String name, String description, Status status) {
