@@ -2,30 +2,36 @@ package service;
 
 import model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static model.Status.*;
 
-public class ManagerTask {
-    private final Map<Integer, Task> tasks = new HashMap<>();
+public class InMemoryTaskManager implements TaskManager {
+    private final static Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, SubTask> subTasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
-
     private IdGenerator idGenerator = new IdGenerator();
+    private InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
 
+    @Override
     public Map<Integer, Task> getTasks() {
         return tasks;
     }
 
+    @Override
     public Map<Integer, SubTask> getSubTasks() {
         return subTasks;
     }
 
+    @Override
     public Map<Integer, Epic> getEpics() {
         return epics;
     }
 
+    @Override
     public Task createTask(Task task) {
         int taskId = idGenerator.getNewId();
         task.setId(taskId);
@@ -33,6 +39,7 @@ public class ManagerTask {
         return task;
     }
 
+    @Override
     public SubTask createSubTask(SubTask subTask) {
         int taskId = idGenerator.getNewId();
         subTask.setId(taskId);
@@ -43,6 +50,7 @@ public class ManagerTask {
         return subTask;
     }
 
+    @Override
     public Epic createEpic(Epic epic) {
         int taskId = idGenerator.getNewId();
         epic.setId(taskId);
@@ -50,19 +58,22 @@ public class ManagerTask {
         return epic;
     }
 
+    @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
     }
 
+    @Override
     public void updateTask(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
+    @Override
     public void updateTask(SubTask subTask) {
         subTasks.put(subTask.getId(), subTask);
     }
 
-    // метод для изменения статуса эпик
+    @Override
     public void updateEpicStatus() {
         for (Epic epic : epics.values()) {
             int statusNew = 0;
@@ -97,10 +108,12 @@ public class ManagerTask {
         }
     }
 
+    @Override
     public void deleteTask(int taskId) {
         tasks.remove(taskId);
     }
 
+    @Override
     public void deleteSubTask(int taskId) {
         Epic tempEpic = epics.get(subTasks.get(taskId).getEpicId());
         tempEpic.getSubTask().remove(subTasks.get(taskId));
@@ -108,6 +121,7 @@ public class ManagerTask {
         subTasks.remove(taskId);
     }
 
+    @Override
     public void deleteEpic(int taskId) {
         for (SubTask subTask : epics.get(taskId).getSubTask()) {
             subTasks.remove(subTask.getId());
@@ -115,23 +129,33 @@ public class ManagerTask {
         epics.remove(taskId);
     }
 
-    public AbstractTask getTask(int taskId, TypeTask typeTask) {
-        switch (typeTask) {
-            case TASK:
-                return tasks.get(taskId);
-            case EPIC:
-                return epics.get(taskId);
-            case SUB_TASK:
-                return subTasks.get(taskId);
-            default:
-                throw new IllegalStateException("Unexpected value: " + typeTask);
-        }
+    @Override
+    public Task getTask(int taskId) {
+        historyManager.add(tasks.get(taskId));
+        return tasks.get(taskId);
     }
 
+    @Override
+    public Epic getEpic(int taskId) {
+        historyManager.add(epics.get(taskId));
+        return epics.get(taskId);
+    }
+
+    @Override
+    public SubTask getSubTask(int taskId) {
+        historyManager.add(subTasks.get(taskId));
+        return subTasks.get(taskId);
+    }
+
+    @Override
     public void deleteAllTask() {
         tasks.clear();
         epics.clear();
         subTasks.clear();
     }
 
+    @Override
+    public List<AbstractTask> getHistory() {
+        return historyManager.getHistory();
+    }
 }

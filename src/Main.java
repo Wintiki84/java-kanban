@@ -1,8 +1,5 @@
-import model.Epic;
-import model.SubTask;
-import model.Task;
-import service.ManagerTask;
-import model.Status;
+import model.*;
+import service.*;
 
 import java.util.*;
 
@@ -12,7 +9,7 @@ public class Main<menuActionsTask, exit> {
     public static void main(String[] args) {
         //весь код в этом классе только для проверки роботоспособности (временный)
         System.out.println("Поехали!");
-        ManagerTask managerTask = new ManagerTask();
+        InMemoryTaskManager managerTask = new InMemoryTaskManager();
         Status status = Status.NEW;
 
         Epic epic1 = new Epic("Важный эпик 1", "Очень важный", status);
@@ -70,8 +67,8 @@ public class Main<menuActionsTask, exit> {
             System.out.println(subTask.getValue().getName() + " " + subTask.getValue().getDescription() + " " +
                     subTask.getValue().getStatus());
         }
-        managerTask.deleteSubTask(5);
-        managerTask.deleteEpic(1);
+        //managerTask.deleteSubTask(5);
+        //managerTask.deleteEpic(1);
         System.out.println("Задача № " + managerTask.getTasks().get(6).getId());
         System.out.println(managerTask.getTasks().get(6).getName() + " " +
                 managerTask.getTasks().get(6).getDescription() + " " +
@@ -86,6 +83,12 @@ public class Main<menuActionsTask, exit> {
             System.out.println("Подзадача № " + subTask.getKey());
             System.out.println(subTask.getValue().getName() + " " + subTask.getValue().getDescription() + " " +
                     subTask.getValue().getStatus());
+        }
+
+        System.out.println("Подзадача № " + managerTask.getEpic(1).getId());
+        managerTask.getSubTask(2);
+        for (AbstractTask tasks : managerTask.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
         }
     }
 }
