@@ -7,4 +7,8 @@ public class IdGenerator {
         taskId++;
         return taskId;
     }
+
+    public static int getTaskId() {
+        return taskId;
+    }
 }
