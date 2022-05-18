@@ -1,7 +1,7 @@
 package model;
 
 public class SubTask extends AbstractTask {
-    Integer epicId;
+    private final int epicId;
 
     public SubTask(String name, String description, Status status, Integer epicId) {
         super(name, description, status);

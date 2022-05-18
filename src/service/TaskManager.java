@@ -1,6 +1,9 @@
 package service;
 
-import model.*;
+import model.AbstractTask;
+import model.Epic;
+import model.SubTask;
+import model.Task;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +35,6 @@ public interface TaskManager {
     void deleteSubTask(int taskId);
 
     void deleteEpic(int taskId);
-
 
     Task getTask(int taskId);
 

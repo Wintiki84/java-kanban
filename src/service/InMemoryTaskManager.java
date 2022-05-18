@@ -1,8 +1,10 @@
 package service;
 
-import model.*;
+import model.AbstractTask;
+import model.Epic;
+import model.SubTask;
+import model.Task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +12,11 @@ import java.util.Map;
 import static model.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final static Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, SubTask> subTasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
-    private IdGenerator idGenerator = new IdGenerator();
-    private InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+    private final IdGenerator idGenerator = new IdGenerator();
+    private final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
 
     @Override
     public Map<Integer, Task> getTasks() {
@@ -43,9 +45,11 @@ public class InMemoryTaskManager implements TaskManager {
     public SubTask createSubTask(SubTask subTask) {
         int taskId = idGenerator.getNewId();
         subTask.setId(taskId);
-        Epic tempEpic = epics.get(subTask.getEpicId());//Добовляем ИД поздадачи в эпик
-        tempEpic.getSubTask().add(subTask);
-        epics.put(subTask.getEpicId(), tempEpic);
+        Epic tempEpic = epics.get(subTask.getEpicId());
+        if (null != tempEpic) {
+            tempEpic.getSubTask().add(subTask);
+            epics.put(subTask.getEpicId(), tempEpic);
+        }
         subTasks.put(taskId, subTask);
         return subTask;
     }
@@ -81,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
             int statusDone = 0;
 
             for (SubTask subTask : subTasks.values()) {
-                if (subTask.getEpicId() == epic.getId()) {
+                if (subTask.getEpicId().equals(epic.getId())) {
                     switch (subTask.getStatus()) {
                         case NEW:
                             statusNew++;
@@ -95,10 +99,10 @@ public class InMemoryTaskManager implements TaskManager {
                     }
                 }
             }
-            if ((statusNew > 0) & (statusInProgress == 0) & (statusDone == 0)) {
+            if ((statusNew > 0) && (statusInProgress == 0) && (statusDone == 0)) {
                 epic.setStatus(NEW);
                 epics.put(epic.getId(), epic);
-            } else if ((statusNew == 0) & (statusInProgress == 0)) {
+            } else if ((statusNew == 0) && (statusInProgress == 0)) {
                 epic.setStatus(DONE);
                 epics.put(epic.getId(), epic);
             } else {

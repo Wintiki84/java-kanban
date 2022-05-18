@@ -1,13 +1,12 @@
 package model;
 
 public abstract class AbstractTask {
-
     private int id;
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private Status status;
 
-    public AbstractTask(String name, String description, Status status) {
+    protected AbstractTask(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
