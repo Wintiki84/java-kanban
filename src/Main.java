@@ -28,65 +28,24 @@ public class Main<menuActionsTask, exit> {
         Task task = new Task("Важная задача 1", "Очень важная", status);
         managerTask.createTask(task);
 
-        System.out.println("Задача № " + managerTask.getTasks().get(6).getId());
-        System.out.println(managerTask.getTasks().get(6).getName() + " "
-                + managerTask.getTasks().get(6).getDescription() + " "
-                + managerTask.getTasks().get(6).getStatus());
 
-
-        for (Map.Entry<Integer, Epic> epic : managerTask.getEpics().entrySet()) {
-            System.out.println("Эпик № " + epic.getKey());
-            System.out.println(epic.getValue().getName() + " " + epic.getValue().getDescription() + " "
-                    + epic.getValue().getStatus());
-            System.out.println("Подзадачи" + epic.getValue().getSubTask());
-        }
-        for (Map.Entry<Integer, SubTask> subTask : managerTask.getSubTasks().entrySet()) {
-            System.out.println("Подзадача № " + subTask.getKey());
-            System.out.println(subTask.getValue().getName() + " " + subTask.getValue().getDescription() + " "
-                    + subTask.getValue().getStatus());
-        }
-        SubTask subTask4 = managerTask.getSubTasks().get(2);
-        subTask4.setStatus(Status.IN_PROGRESS);
-        managerTask.updateTask(subTask4);
-        subTask4 = managerTask.getSubTasks().get(5);
-        subTask4.setStatus(Status.DONE);
-        managerTask.updateTask(subTask4);
-        managerTask.updateEpicStatus();
-        System.out.println("Задача № " + managerTask.getTasks().get(6).getId());
-        System.out.println(managerTask.getTasks().get(6).getName() + " "
-                + managerTask.getTasks().get(6).getDescription() + " "
-                + managerTask.getTasks().get(6).getStatus());
-        for (Map.Entry<Integer, Epic> epic : managerTask.getEpics().entrySet()) {
-            System.out.println("Эпик № " + epic.getKey());
-            System.out.println(epic.getValue().getName() + " " + epic.getValue().getDescription() + " "
-                    + epic.getValue().getStatus());
-            System.out.println("Подзадачи" + epic.getValue().getSubTask());
-        }
-        for (Map.Entry<Integer, SubTask> subTask : managerTask.getSubTasks().entrySet()) {
-            System.out.println("Подзадача № " + subTask.getKey());
-            System.out.println(subTask.getValue().getName() + " " + subTask.getValue().getDescription() + " "
-                    + subTask.getValue().getStatus());
-        }
-//        managerTask.deleteSubTask(5);
-//        managerTask.deleteEpic(1);
-        System.out.println("Задача № " + managerTask.getTasks().get(6).getId());
-        System.out.println(managerTask.getTasks().get(6).getName() + " "
-                + managerTask.getTasks().get(6).getDescription() + " "
-                + managerTask.getTasks().get(6).getStatus());
-        for (Map.Entry<Integer, Epic> epic : managerTask.getEpics().entrySet()) {
-            System.out.println("Эпик № " + epic.getKey());
-            System.out.println(epic.getValue().getName() + " " + epic.getValue().getDescription() + " "
-                    + epic.getValue().getStatus());
-            System.out.println("Подзадачи" + epic.getValue().getSubTask());
-        }
-        for (Map.Entry<Integer, SubTask> subTask : managerTask.getSubTasks().entrySet()) {
-            System.out.println("Подзадача № " + subTask.getKey());
-            System.out.println(subTask.getValue().getName() + " " + subTask.getValue().getDescription() + " "
-                    + subTask.getValue().getStatus());
-        }
-
-        System.out.println("Подзадача № " + managerTask.getEpic(1).getId());
+        managerTask.getTask(6);
+        managerTask.getEpic(1);
+        managerTask.getEpic(4);
+        managerTask.getSubTask(5);
+        managerTask.getEpic(1);
         managerTask.getSubTask(2);
+        managerTask.getSubTask(3);
+        managerTask.getSubTask(5);
+
+
+        for (AbstractTask tasks : managerTask.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+
+        System.out.println("Удаляем ");
+        managerTask.deleteSubTask(5);
+
         for (AbstractTask tasks : managerTask.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
         }
