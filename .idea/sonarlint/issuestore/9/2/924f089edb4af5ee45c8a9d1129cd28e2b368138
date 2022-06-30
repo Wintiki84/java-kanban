@@ -1,0 +1,17 @@
+
+†
+java:S1192"kDefine a constant instead of duplicating this literal "ÐžÑ‡ÐµÐ½ÑŒ Ð²Ð°Ð¶Ð½Ð°Ñ Ð¿Ð¾Ð´Ð·Ð°Ð´Ð°Ñ‡Ð°" 3 times.(ÁËêÉúÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
+>
+java:S2326")menuActionsTask is not used in the class.(ŸìµB
+3
+java:S2326"exit is not used in the class.(ŸìµB
+]	java:S119"IRename this generic name to match the regular expression '^[A-Z][0-9]?$'.(ŸìµB
+]	java:S119"IRename this generic name to match the regular expression '^[A-Z][0-9]?$'.(ŸìµB
+N	java:S106"9Replace this use of System.out or System.err by a logger.(í•æ§
+M	java:S106+"9Replace this use of System.out or System.err by a logger.(ˆþ¿r
+N	java:S106."9Replace this use of System.out or System.err by a logger.(Æˆ’Ê
+M	java:S1062"9Replace this use of System.out or System.err by a logger.(ˆþ¿r
+<
+java:S1128"&Remove this unused import 'java.util'.(Î€ŒÙ
