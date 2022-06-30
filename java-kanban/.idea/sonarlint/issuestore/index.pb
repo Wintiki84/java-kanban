@@ -17,14 +17,14 @@ L
 src/service/IdGenerator.java,f\2\f2b1841e1577a62a67f83a883bb2fa2d4e4f466c
 O
 src/service/HistoryManager.java,8\4\84cd655a5160573f99e809e906ec2abd35aa5bf5
-I
-src/service/Managers.java,3\0\307443a197331a710b5cc100c0f66ec4685726b9
-C
-src/model/Node.java,2\e\2ed6a95e5ca7a56d152c3ceff145ee8e83016852
 C
 src/model/Epic.java,1\5\15fb8ff594e3a81ac2d9c626287e891985bba15d
+C
+src/model/Node.java,2\e\2ed6a95e5ca7a56d152c3ceff145ee8e83016852
 T
 $src/service/InMemoryTaskManager.java,6\3\6367734ca952fbfc98c1e28d4c7bc72f134033e4
+I
+src/service/Managers.java,3\0\307443a197331a710b5cc100c0f66ec4685726b9
 =
 src/Main.java,9\2\924f089edb4af5ee45c8a9d1129cd28e2b368138
 W
