@@ -1,10 +1,7 @@
 import model.*;
 import service.*;
 
-import java.util.*;
-
-
-public class Main<menuActionsTask, exit> {
+public class Main {
 
     public static void main(String[] args) {
         //весь код в этом классе только для проверки роботоспособности (временный)

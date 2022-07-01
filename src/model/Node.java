@@ -1,17 +1,15 @@
 package model;
 
-import java.util.ArrayList;
+public class Node<E extends AbstractTask> {
+    private AbstractTask item;
+    private Node<E> next;
+    private Node<E> prev;
 
-public class Node<E> {
-    private  AbstractTask item;
-    private  Node<E> next;
-    private  Node<E> prev;
-
-        public Node(Node<E> prev, AbstractTask element, Node<E> next) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
-        }
+    public Node(Node<E> prev, AbstractTask element, Node<E> next) {
+        this.item = element;
+        this.next = next;
+        this.prev = prev;
+    }
 
     public void setItem(AbstractTask item) {
         this.item = item;
@@ -35,5 +33,13 @@ public class Node<E> {
 
     public Node<E> getPrev() {
         return prev;
+    }
+
+    public boolean hasPrev() {
+        return !(prev == null);
+    }
+
+    public boolean hasNext() {
+        return !(next == null);
     }
 }
