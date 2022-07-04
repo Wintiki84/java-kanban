@@ -36,10 +36,10 @@ public class Node<E extends AbstractTask> {
     }
 
     public boolean hasPrev() {
-        return !(prev == null);
+        return prev != null;
     }
 
     public boolean hasNext() {
-        return !(next == null);
+        return next != null;
     }
 }
