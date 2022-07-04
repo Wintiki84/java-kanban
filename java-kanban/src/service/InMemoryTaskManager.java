@@ -35,7 +35,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task task) {
         task.setId(IdGenerator.getNewId());
-        tasks.put(IdGenerator.getTaskId(), task);
+        tasks.put(task.getId(), task);
         return task;
     }
 
@@ -44,17 +44,17 @@ public class InMemoryTaskManager implements TaskManager {
         subTask.setId(IdGenerator.getNewId());
         Epic tempEpic = epics.get(subTask.getEpicId());
         if (null != tempEpic) {
-            tempEpic.getSubTask().add(subTask);
+            tempEpic.getSubTasks().add(subTask);
             epics.put(subTask.getEpicId(), tempEpic);
         }
-        subTasks.put(IdGenerator.getTaskId(), subTask);
+        subTasks.put(subTask.getId(), subTask);
         return subTask;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
         epic.setId(IdGenerator.getNewId());
-        epics.put(IdGenerator.getTaskId(), epic);
+        epics.put(epic.getId(), epic);
         return epic;
     }
 
@@ -110,7 +110,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTask(int taskId) {
-
         tasks.remove(taskId);
         historyManager.remove(taskId);
     }
@@ -118,7 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteSubTask(int taskId) {
         Epic tempEpic = epics.get(subTasks.get(taskId).getEpicId());
-        tempEpic.getSubTask().remove(subTasks.get(taskId));
+        tempEpic.getSubTasks().remove(subTasks.get(taskId));
         epics.put(subTasks.get(taskId).getEpicId(), tempEpic);
         subTasks.remove(taskId);
         historyManager.remove(taskId);
@@ -126,7 +125,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpic(int taskId) {
-        for (SubTask subTask : epics.get(taskId).getSubTask()) {
+        for (SubTask subTask : epics.get(taskId).getSubTasks()) {
             subTasks.remove(subTask.getId());
         }
         epics.remove(taskId);

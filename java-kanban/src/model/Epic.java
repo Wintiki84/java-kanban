@@ -10,11 +10,11 @@ public class Epic extends AbstractTask {
         super(name, description, status);
     }
 
-    public void setSubTask(SubTask subTask) {
+    public void addSubTask(SubTask subTask) {
         this.subTasks.add(subTask);
     }
 
-    public List<SubTask> getSubTask() {
+    public List<SubTask> getSubTasks() {
         return subTasks;
     }
 }

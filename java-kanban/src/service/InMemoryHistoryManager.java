@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final List<AbstractTask> history = new ArrayList<>();
-    private final Map<Integer, Node> nodeMap = new HashMap<>();
+    private final Map<Integer, Node<AbstractTask>> nodeMap = new HashMap<>();
 
     @Override
     public void add(AbstractTask task) {
@@ -31,27 +31,27 @@ public class InMemoryHistoryManager implements HistoryManager {
         return history;
     }
 
-    private void removeNode(Node node) {
-        if (!(node.getPrev() == null)) {
-            node.getPrev().setNext((node.getNext() == null) ? null : node.getNext());
+    private void removeNode(Node<AbstractTask> node) {
+        if (node.hasPrev()) {
+            node.getPrev().setNext((node.hasNext()) ? null : node.getNext());
         }
-        if (!(node.getNext() == null)) {
-            node.getNext().setPrev((node.getPrev() == null) ? null : node.getPrev());
+        if (node.hasNext()) {
+            node.getNext().setPrev((node.hasPrev()) ? null : node.getPrev());
         }
     }
 
     private void linkLast(AbstractTask task) {
         if (nodeMap.isEmpty()) {
-            Node node = new Node(null, task, null);
+            Node<AbstractTask> node = new Node(null, task, null);
             nodeMap.put(task.getId(), node);
         } else {
             if (nodeMap.containsKey(task.getId())) {
                 removeNode(nodeMap.get(task.getId()));
                 nodeMap.remove(task.getId());
             }
-            for (Node nodeFirst : nodeMap.values()) {
+            for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
                 if (nodeFirst.getNext() == null) {
-                    Node node = new Node(nodeFirst, task, null);
+                    Node<AbstractTask> node = new Node(nodeFirst, task, null);
                     nodeMap.put(task.getId(), node);
                     nodeFirst.setNext(node);
                     break;
@@ -63,9 +63,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     public void getTasks() {
-        Node node = new Node(null, null, null);
+        Node<AbstractTask> node = new Node(null, null, null);
         history.clear();
-        for (Node nodeFirst : nodeMap.values()) {
+        for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
             if (nodeFirst.getPrev() == null) {
                 history.add(nodeFirst.getItem());
                 node = nodeFirst;
