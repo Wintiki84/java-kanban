@@ -40,6 +40,6 @@ public class Node<E extends AbstractTask> {
     }
 
     public boolean hasNext() {
-        return !(next == null);
+        return next != null;
     }
 }
