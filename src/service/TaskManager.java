@@ -10,6 +10,8 @@ import java.util.Map;
 
 public interface TaskManager {
 
+
+
     Map<Integer, Task> getTasks();
 
     Map<Integer, SubTask> getSubTasks();
@@ -41,6 +43,12 @@ public interface TaskManager {
     Epic getEpic(int taskId);
 
     SubTask getSubTask(int taskId);
+
+    void setTask(int id, Task task);
+
+    void setEpic(int id, Epic epic);
+
+    void setSubTask(int id, SubTask subTask);
 
     void deleteAllTask();
 

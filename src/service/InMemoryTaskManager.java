@@ -12,10 +12,11 @@ import java.util.Map;
 import static model.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+
 
     @Override
     public Map<Integer, Task> getTasks() {
@@ -148,6 +149,19 @@ public class InMemoryTaskManager implements TaskManager {
     public SubTask getSubTask(int taskId) {
         historyManager.add(subTasks.get(taskId));
         return subTasks.get(taskId);
+    }
+
+    @Override
+    public void setTask(int id, Task task){
+        tasks.put(id, task);
+    }
+    @Override
+    public void setEpic(int id, Epic epic){
+        epics.put(id, epic);
+    }
+    @Override
+    public void setSubTask(int id, SubTask subTask){
+        subTasks.put(id, subTask);
     }
 
     @Override

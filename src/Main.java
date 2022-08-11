@@ -5,8 +5,8 @@ public class Main {
 
     public static void main(String[] args) {
         //весь код в этом классе только для проверки роботоспособности (временный)
-        System.out.println("Поехали!");
-        InMemoryTaskManager managerTask = new InMemoryTaskManager();
+        /*System.out.println("Поехали!");
+        InMemoryTaskManager managerTask = new FileBackedTasksManager();
         Status status = Status.NEW;
 
         Epic epic1 = new Epic("Важный эпик 1", "Очень важный", status);
@@ -22,29 +22,57 @@ public class Main {
         SubTask subTask3 = new SubTask("Подзадача 1 важного эпика 2", "Очень важная подзадача",
                 status, 4);
         managerTask.createSubTask(subTask3);
-        Task task = new Task("Важная задача 1", "Очень важная", status);
-        managerTask.createTask(task);
+        Task task = new Task( "Важная задача 1", "Очень важная", status);
+        managerTask.createTask(task);*/
+        //InMemoryTaskManager managerTask = new InMemoryTaskManager();
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+        fileBackedTasksManager.readingTasks();
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getTask(1);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getEpic(2);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getEpic(4);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getSubTask(6);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getEpic(2);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getSubTask(8);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getSubTask(9);
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+            System.out.println("Задача № " + tasks.getId());
+        }
+        System.out.println("\n");
+        fileBackedTasksManager.getSubTask(6);
 
 
-        managerTask.getTask(6);
-        managerTask.getEpic(1);
-        managerTask.getEpic(4);
-        managerTask.getSubTask(5);
-        managerTask.getEpic(1);
-        managerTask.getSubTask(2);
-        managerTask.getSubTask(3);
-        managerTask.getSubTask(5);
-
-
-        for (AbstractTask tasks : managerTask.getHistory()) {
+        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
         }
 
-        System.out.println("Удаляем ");
-        managerTask.deleteSubTask(5);
 
-        for (AbstractTask tasks : managerTask.getHistory()) {
-            System.out.println("Задача № " + tasks.getId());
-        }
     }
 }

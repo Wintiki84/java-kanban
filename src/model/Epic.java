@@ -7,7 +7,7 @@ public class Epic extends AbstractTask {
     private final List<SubTask> subTasks = new ArrayList<>();
 
     public Epic(String name, String description, Status status) {
-        super(name, description, status);
+        super(TypeTask.EPIC, name, description, status);
     }
 
     public void addSubTask(SubTask subTask) {

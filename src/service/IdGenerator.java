@@ -11,4 +11,8 @@ public class IdGenerator {
     public static int getTaskId() {
         return taskId;
     }
+
+    public static void setTaskId(int id) {
+        taskId = id;
+    }
 }

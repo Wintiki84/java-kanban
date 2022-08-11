@@ -3,6 +3,8 @@ package service;
 import model.AbstractTask;
 
 import model.Node;
+import model.Status;
+import model.TypeTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +35,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private void removeNode(Node<AbstractTask> node) {
         if (node.hasPrev()) {
-            node.getPrev().setNext((node.hasNext()) ? null : node.getNext());
+            node.getPrev().setNext((node.hasNext()) ? node.getNext() : null);
         }
         if (node.hasNext()) {
-            node.getNext().setPrev((node.hasPrev()) ? null : node.getPrev());
+            node.getNext().setPrev((node.hasPrev()) ? node.getPrev() : null);
         }
     }
 
@@ -47,7 +49,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             if (nodeMap.containsKey(task.getId())) {
                 removeNode(nodeMap.get(task.getId()));
-                nodeMap.remove(task.getId());
+                nodeMap.values().remove(task.getId());
+                //nodeMap.remove(task.getId());
             }
             for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
                 if (nodeFirst.getNext() == null) {

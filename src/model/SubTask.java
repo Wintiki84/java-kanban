@@ -1,15 +1,9 @@
 package model;
 
 public class SubTask extends AbstractTask {
-    private final int epicId;
 
-    public SubTask(String name, String description, Status status, Integer epicId) {
-        super(name, description, status);
-        this.epicId = epicId;
+    public SubTask(String name, String description, Status status, int epicId) {
+        super(TypeTask.SUB_TASK, name, description, status);
+        super.setEpicId(epicId);
     }
-
-    public Integer getEpicId() {
-        return epicId;
-    }
-
 }
