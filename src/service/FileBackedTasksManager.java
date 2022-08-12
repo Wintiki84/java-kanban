@@ -8,6 +8,13 @@ import java.nio.file.Paths;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
+    static final String colon = ":";
+    static final String comma = ",";
+    static final String[] filePath = {"src/", "data"};
+    static final String fileName = "tasks.csv";
+    static final String tableHeader = "id,type,name,status,description,epic";
+    static final String newLine = "\n";
+
     @Override
     public Task createTask(Task task) {
         super.createTask(task);
@@ -99,32 +106,32 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
 
-    public void save() {
-        Path tasksFilePath = Paths.get("src/", "data", "tasks.csv");
+    private void save() {
+        Path tasksFilePath = Paths.get(filePath[0], filePath[1], fileName);
         StringBuilder stringBuilderTasks = new StringBuilder();
-        stringBuilderTasks.append("id,type,name,status,description,epic\n");
+        stringBuilderTasks.append(tableHeader + newLine);
         for (Task task : getTasks().values()) {
             stringBuilderTasks.append(task.toString())
-                    .append("\n");
+                    .append(newLine);
         }
 
         for (Epic epic : getEpics().values()) {
             stringBuilderTasks.append(epic.toString())
-                    .append("\n");
+                    .append(newLine);
         }
 
         for (SubTask subTask : getSubTasks().values()) {
             stringBuilderTasks.append(subTask.toString())
-                    .append("\n");
+                    .append(newLine);
         }
 
         stringBuilderTasks.append("\n");
         for (AbstractTask Task : getHistory()) {
-            stringBuilderTasks.append(Task.getId() + ":" + Task.getTypeTask())
-                    .append("\n");
+            stringBuilderTasks.append(Task.getId() + colon + Task.getTypeTask())
+                    .append(newLine);
         }
 
-        stringBuilderTasks.append("\n");
+        stringBuilderTasks.append(newLine);
         stringBuilderTasks.append(IdGenerator.getTaskId());
         String stingTasks = String.valueOf(stringBuilderTasks);
 
@@ -138,12 +145,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void readingTasks() {
-        Path tasksFilePath = Paths.get("src/", "data", "tasks.csv");
+        Path tasksFilePath = Paths.get(filePath[0], filePath[1], fileName);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(tasksFilePath.toString()));) {
             String stringTask;
             while ((stringTask = fileReader.readLine()) != null) {
-                if (!stringTask.equals("id,type,name,status,description,epic") & !stringTask.equals("")) {
-                    if (stringTask.indexOf(",") != -1) {
+                if (!stringTask.equals(tableHeader) & !stringTask.equals("")) {
+                    if (stringTask.indexOf(comma) != -1) {
                         AbstractTask abstractTask = AbstractTask.fromString(stringTask);
                         switch (abstractTask.getTypeTask()) {
                             case TASK:
@@ -173,16 +180,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             default:
                                 continue;
                         }
-                    } else if (stringTask.indexOf(":") != -1) {
-                        String[] splitTask = stringTask.split(":");
-                        switch (splitTask[1]) {
-                            case "TASK":
+                    } else if (stringTask.indexOf(colon) != -1) {
+                        String[] splitTask = stringTask.split(colon);
+                        TypeTask typeTask = TypeTask.fromString(splitTask[1]);
+                        switch (typeTask) {
+                            case TASK:
                                 historyManager.add(tasks.get(Integer.parseInt(splitTask[0])));
                                 continue;
-                            case "EPIC":
+                            case EPIC:
                                 historyManager.add(epics.get(Integer.parseInt(splitTask[0])));
                                 continue;
-                            case "SUB_TASK":
+                            case SUB_TASK:
                                 historyManager.add(subTasks.get(Integer.parseInt(splitTask[0])));
                                 continue;
                             default:

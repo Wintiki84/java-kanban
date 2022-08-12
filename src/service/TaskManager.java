@@ -10,8 +10,6 @@ import java.util.Map;
 
 public interface TaskManager {
 
-
-
     Map<Integer, Task> getTasks();
 
     Map<Integer, SubTask> getSubTasks();
