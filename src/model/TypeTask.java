@@ -13,9 +13,9 @@ public enum TypeTask {
 
     public static TypeTask fromString(String value) {
         if (value != null) {
-            for (TypeTask pt : TypeTask.values()) {
-                if (value.equalsIgnoreCase(pt.value)) {
-                    return pt;
+            for (TypeTask typeTask : TypeTask.values()) {
+                if (value.equalsIgnoreCase(typeTask.value)) {
+                    return typeTask;
                 }
             }
         }
