@@ -8,12 +8,13 @@ import java.nio.file.Paths;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    static final String colon = ":";
-    static final String comma = ",";
-    static final String[] filePath = {"src/", "data"};
-    static final String fileName = "tasks.csv";
-    static final String tableHeader = "id,type,name,status,description,epic";
-    static final String newLine = "\n";
+    private static final String COLON = ":";
+    private static final String COMMA = ",";
+    private static final String SRC_PATH = "src/";
+    private static final String DATA_PATH = "data";
+    private static final String FILE_NAME = "tasks.csv";
+    private static final String TABLE_HEADER = "id,type,name,status,description,epic";
+    private static final String NEW_LINE = "\n";
 
     @Override
     public Task createTask(Task task) {
@@ -107,35 +108,35 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
 
     private void save() {
-        Path tasksFilePath = Paths.get(filePath[0], filePath[1], fileName);
+        Path tasksFILE_PATH = Paths.get(SRC_PATH, DATA_PATH, FILE_NAME);
         StringBuilder stringBuilderTasks = new StringBuilder();
-        stringBuilderTasks.append(tableHeader + newLine);
+        stringBuilderTasks.append(TABLE_HEADER + NEW_LINE);
         for (Task task : getTasks().values()) {
             stringBuilderTasks.append(task.toString())
-                    .append(newLine);
+                    .append(NEW_LINE);
         }
 
         for (Epic epic : getEpics().values()) {
             stringBuilderTasks.append(epic.toString())
-                    .append(newLine);
+                    .append(NEW_LINE);
         }
 
         for (SubTask subTask : getSubTasks().values()) {
             stringBuilderTasks.append(subTask.toString())
-                    .append(newLine);
+                    .append(NEW_LINE);
         }
 
         stringBuilderTasks.append("\n");
         for (AbstractTask Task : getHistory()) {
-            stringBuilderTasks.append(Task.getId() + colon + Task.getTypeTask())
-                    .append(newLine);
+            stringBuilderTasks.append(Task.getId() + COLON + Task.getTypeTask())
+                    .append(NEW_LINE);
         }
 
-        stringBuilderTasks.append(newLine);
+        stringBuilderTasks.append(NEW_LINE);
         stringBuilderTasks.append(IdGenerator.getTaskId());
         String stingTasks = String.valueOf(stringBuilderTasks);
 
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(tasksFilePath.toString()));) {
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(tasksFILE_PATH.toString()));) {
             fileWriter.write(stingTasks);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -145,12 +146,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void readingTasks() {
-        Path tasksFilePath = Paths.get(filePath[0], filePath[1], fileName);
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(tasksFilePath.toString()));) {
+        Path tasksFILE_PATH = Paths.get(SRC_PATH, DATA_PATH, FILE_NAME);
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(tasksFILE_PATH.toString()));) {
             String stringTask;
             while ((stringTask = fileReader.readLine()) != null) {
-                if (!stringTask.equals(tableHeader) & !stringTask.equals("")) {
-                    if (stringTask.indexOf(comma) != -1) {
+                if (!stringTask.equals(TABLE_HEADER) & !stringTask.equals("")) {
+                    if (stringTask.indexOf(COMMA) != -1) {
                         AbstractTask abstractTask = AbstractTask.fromString(stringTask);
                         switch (abstractTask.getTypeTask()) {
                             case TASK:
@@ -180,8 +181,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             default:
                                 continue;
                         }
-                    } else if (stringTask.indexOf(colon) != -1) {
-                        String[] splitTask = stringTask.split(colon);
+                    } else if (stringTask.indexOf(COLON) != -1) {
+                        String[] splitTask = stringTask.split(COLON);
                         TypeTask typeTask = TypeTask.fromString(splitTask[1]);
                         switch (typeTask) {
                             case TASK:
