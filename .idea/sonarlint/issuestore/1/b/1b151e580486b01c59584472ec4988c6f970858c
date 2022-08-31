@@ -1,0 +1,14 @@
+
+n	java:S135˜"YReduce the total number of break and continue statements in this loop to use at most one.(òío
+k	java:S117o"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õšì”ûÿÿÿÿ
+l	java:S117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õšì”ûÿÿÿÿ
+\
+java:S2147"ECombine this catch with the one at line 141, which has the same body.(ï­£Ä
+h
+java:S3776”"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Æ‰Â/
+2
+java:S3626Î"Remove this redundant jump.(İí¦
+\
+java:S2147Ò"ECombine this catch with the one at line 208, which has the same body.(ï­£Ä
+‚
+java:S2178™"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Èõ‰ùÿÿÿÿÿ

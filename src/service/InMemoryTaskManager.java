@@ -1,13 +1,11 @@
 package service;
 
-import model.AbstractTask;
-import model.Epic;
-import model.SubTask;
-import model.Task;
+import model.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
 
 import static model.Status.*;
 
@@ -16,7 +14,8 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, SubTask> subTasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
-
+    protected final TreeSet<AbstractTask> prioritizedTasks = new TreeSet<>(new DataComparatorTask());
+    protected final List<AbstractTask> prioritizedListTasks = new ArrayList<>();
 
     @Override
     public Map<Integer, Task> getTasks() {
@@ -37,6 +36,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task createTask(Task task) {
         task.setId(IdGenerator.getNewId());
         tasks.put(task.getId(), task);
+        setPrioritizedTasks();
         return task;
     }
 
@@ -49,6 +49,9 @@ public class InMemoryTaskManager implements TaskManager {
             epics.put(subTask.getEpicId(), tempEpic);
         }
         subTasks.put(subTask.getId(), subTask);
+        updateEpicStatus();
+        updateEpicTime();
+        setPrioritizedTasks();
         return subTask;
     }
 
@@ -56,6 +59,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic createEpic(Epic epic) {
         epic.setId(IdGenerator.getNewId());
         epics.put(epic.getId(), epic);
+        setPrioritizedTasks();
         return epic;
     }
 
@@ -72,6 +76,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(SubTask subTask) {
         subTasks.put(subTask.getId(), subTask);
+        updateEpicStatus();
+        updateEpicTime();
     }
 
     @Override
@@ -112,6 +118,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int taskId) {
         tasks.remove(taskId);
+        setPrioritizedTasks();
         historyManager.remove(taskId);
     }
 
@@ -119,8 +126,11 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteSubTask(int taskId) {
         Epic tempEpic = epics.get(subTasks.get(taskId).getEpicId());
         tempEpic.getSubTasks().remove(subTasks.get(taskId));
+        updateEpicStatus();
+        updateEpicTime();
         epics.put(subTasks.get(taskId).getEpicId(), tempEpic);
         subTasks.remove(taskId);
+        setPrioritizedTasks();
         historyManager.remove(taskId);
     }
 
@@ -130,6 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
             subTasks.remove(subTask.getId());
         }
         epics.remove(taskId);
+        setPrioritizedTasks();
         historyManager.remove(taskId);
     }
 
@@ -152,15 +163,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void setTask(int id, Task task){
+    public void setTask(int id, Task task) {
         tasks.put(id, task);
     }
+
     @Override
-    public void setEpic(int id, Epic epic){
+    public void setEpic(int id, Epic epic) {
         epics.put(id, epic);
     }
+
     @Override
-    public void setSubTask(int id, SubTask subTask){
+    public void setSubTask(int id, SubTask subTask) {
         subTasks.put(id, subTask);
     }
 
@@ -169,10 +182,76 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.clear();
         epics.clear();
         subTasks.clear();
+        setPrioritizedTasks();
     }
 
     @Override
     public List<AbstractTask> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public void updateEpicTime() {
+        for (Epic epic : epics.values()) {
+            LocalDateTime startTime = epic.getStartTime();
+            long duration = 0;
+            for (SubTask subTask : subTasks.values()) {
+                if (subTask.getEpicId().equals(epic.getId())) {
+                    if (startTime.equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+                        startTime = subTask.getStartTime();
+                    }
+                    if (subTask.getStartTime().isBefore(startTime)) {
+                        startTime = subTask.getStartTime();
+                    }
+                    duration = duration + subTask.getDuration();
+                }
+            }
+            epic.setStartTime(startTime);
+            epic.setDuration(duration);
+            epics.put(epic.getId(), epic);
+        }
+    }
+
+    @Override
+    public List<AbstractTask> getPrioritizedTasks() {
+        return prioritizedListTasks;
+    }
+
+    @Override
+    public void setPrioritizedTasks() {
+        prioritizedTasks.clear();
+        prioritizedListTasks.clear();
+        for (SubTask subTask : subTasks.values())
+            if (!subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+                prioritizedTasks.add(subTask);
+            }
+
+        for (Task task : tasks.values())
+            if (!task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+                prioritizedTasks.add(task);
+            }
+
+        prioritizedListTasks.addAll(prioritizedTasks);
+        for (SubTask subTask : subTasks.values())
+            if (subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC)))
+                prioritizedListTasks.add(subTask);
+        for (Task task : tasks.values())
+            if (task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC)))
+                prioritizedListTasks.add(task);
+    }
+
+    public void validationTasks() {
+        LocalDateTime localDT = LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC);
+        for (AbstractTask task : prioritizedTasks) {
+            if (task.getEndTime().isBefore(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+                task.setStartTime(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC));
+            }
+            if (!task.getStartTime().isAfter(localDT)
+                    & !task.getEndTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))
+                    & !task.getTypeTask().equals(TypeTask.EPIC)) {
+                task.setStartTime(localDT.plusMinutes(1));
+            }
+            localDT = task.getEndTime();
+        }
     }
 }

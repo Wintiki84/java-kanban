@@ -13,7 +13,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final String SRC_PATH = "src/";
     private static final String DATA_PATH = "data";
     private static final String FILE_NAME = "tasks.csv";
-    private static final String TABLE_HEADER = "id,type,name,status,description,epic";
+    private static final String TABLE_HEADER = "id,type,name,status,description,epic,datetime,description";
     private static final String NEW_LINE = "\n";
 
     @Override
@@ -157,7 +157,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             case TASK:
                                 Task task = new Task(abstractTask.getName(),
                                         abstractTask.getDescription(),
-                                        abstractTask.getStatus());
+                                        abstractTask.getStatus(),
+                                        abstractTask.getStartTime(),
+                                        abstractTask.getDuration());
                                 task.setId(abstractTask.getId());
                                 task.setEpicId(abstractTask.getEpicId());
                                 setTask(abstractTask.getId(), task);
@@ -173,7 +175,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             case SUB_TASK:
                                 SubTask subTask = new SubTask(abstractTask.getName(),
                                         abstractTask.getDescription(),
-                                        abstractTask.getStatus(), abstractTask.getEpicId());
+                                        abstractTask.getStatus(),
+                                        abstractTask.getEpicId(),
+                                        abstractTask.getStartTime(),
+                                        abstractTask.getDuration());
                                 subTask.setId(abstractTask.getId());
                                 subTask.setEpicId(abstractTask.getEpicId());
                                 setSubTask(abstractTask.getId(), subTask);
@@ -205,6 +210,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setPrioritizedTasks();
     }
 }
 

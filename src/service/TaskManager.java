@@ -7,6 +7,8 @@ import model.Task;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -50,5 +52,12 @@ public interface TaskManager {
 
     void deleteAllTask();
 
+    void updateEpicTime();
+
     List<AbstractTask> getHistory();
+
+    List<AbstractTask> getPrioritizedTasks();
+    void setPrioritizedTasks();
+
+    void validationTasks();
 }

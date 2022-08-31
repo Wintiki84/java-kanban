@@ -3,8 +3,6 @@ package service;
 import model.AbstractTask;
 
 import model.Node;
-import model.Status;
-import model.TypeTask;
 
 import java.util.ArrayList;
 import java.util.List;

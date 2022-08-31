@@ -27,6 +27,10 @@ public class Main {
         //InMemoryTaskManager managerTask = new InMemoryTaskManager();
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
         fileBackedTasksManager.readingTasks();
+        fileBackedTasksManager.setPrioritizedTasks();
+        fileBackedTasksManager.validationTasks();
+        fileBackedTasksManager.updateEpicTime();
+
         for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
         }
@@ -68,11 +72,13 @@ public class Main {
         System.out.println("\n");
         fileBackedTasksManager.getSubTask(6);
 
-
         for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
         }
-
+        System.out.println("\n");
+        for (AbstractTask tasks : fileBackedTasksManager.getPrioritizedTasks()) {
+            System.out.println("Задача № " + tasks.getId() + ": " + tasks.getStartTime());
+        }
 
     }
 }
