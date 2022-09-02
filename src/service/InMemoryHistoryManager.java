@@ -63,7 +63,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     }
 
-    public void getTasks() {
+    private void getTasks() {
         Node<AbstractTask> node = new Node(null, null, null);
         history.clear();
         for (Node<AbstractTask> nodeFirst : nodeMap.values()) {

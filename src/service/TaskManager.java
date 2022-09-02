@@ -30,8 +30,6 @@ public interface TaskManager {
 
     void updateTask(SubTask subTask);
 
-    void updateEpicStatus();
-
     void deleteTask(int taskId);
 
     void deleteSubTask(int taskId);
@@ -44,20 +42,9 @@ public interface TaskManager {
 
     SubTask getSubTask(int taskId);
 
-    void setTask(int id, Task task);
-
-    void setEpic(int id, Epic epic);
-
-    void setSubTask(int id, SubTask subTask);
-
     void deleteAllTask();
-
-    void updateEpicTime();
 
     List<AbstractTask> getHistory();
 
     List<AbstractTask> getPrioritizedTasks();
-    void setPrioritizedTasks();
-
-    void validationTasks();
 }

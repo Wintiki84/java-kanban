@@ -80,8 +80,7 @@ public class InMemoryTaskManager implements TaskManager {
         updateEpicTime();
     }
 
-    @Override
-    public void updateEpicStatus() {
+    protected void updateEpicStatus() {
         for (Epic epic : epics.values()) {
             int statusNew = 0;
             int statusInProgress = 0;
@@ -117,63 +116,87 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTask(int taskId) {
-        tasks.remove(taskId);
-        setPrioritizedTasks();
-        historyManager.remove(taskId);
+        try {
+            tasks.remove(taskId);
+            setPrioritizedTasks();
+            historyManager.remove(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
+        }
     }
 
     @Override
     public void deleteSubTask(int taskId) {
-        Epic tempEpic = epics.get(subTasks.get(taskId).getEpicId());
-        tempEpic.getSubTasks().remove(subTasks.get(taskId));
-        updateEpicStatus();
-        updateEpicTime();
-        epics.put(subTasks.get(taskId).getEpicId(), tempEpic);
-        subTasks.remove(taskId);
-        setPrioritizedTasks();
-        historyManager.remove(taskId);
+        try {
+            Epic tempEpic = epics.get(subTasks.get(taskId).getEpicId());
+            tempEpic.getSubTasks().remove(subTasks.get(taskId));
+            updateEpicStatus();
+            updateEpicTime();
+            epics.put(subTasks.get(taskId).getEpicId(), tempEpic);
+            subTasks.remove(taskId);
+            setPrioritizedTasks();
+            historyManager.remove(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
+        }
     }
 
     @Override
     public void deleteEpic(int taskId) {
-        for (SubTask subTask : epics.get(taskId).getSubTasks()) {
-            subTasks.remove(subTask.getId());
+        try {
+            for (SubTask subTask : epics.get(taskId).getSubTasks()) {
+                subTasks.remove(subTask.getId());
+            }
+            epics.remove(taskId);
+            setPrioritizedTasks();
+            historyManager.remove(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
         }
-        epics.remove(taskId);
-        setPrioritizedTasks();
-        historyManager.remove(taskId);
     }
 
     @Override
     public Task getTask(int taskId) {
-        historyManager.add(tasks.get(taskId));
-        return tasks.get(taskId);
+        try {
+            historyManager.add(tasks.get(taskId));
+            return tasks.get(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public Epic getEpic(int taskId) {
-        historyManager.add(epics.get(taskId));
-        return epics.get(taskId);
+        try {
+            historyManager.add(epics.get(taskId));
+            return epics.get(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public SubTask getSubTask(int taskId) {
-        historyManager.add(subTasks.get(taskId));
-        return subTasks.get(taskId);
+        try {
+            historyManager.add(subTasks.get(taskId));
+            return subTasks.get(taskId);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer: " + e.getMessage());
+            return null;
+        }
     }
 
-    @Override
-    public void setTask(int id, Task task) {
+    protected void setTask(int id, Task task) {
         tasks.put(id, task);
     }
 
-    @Override
-    public void setEpic(int id, Epic epic) {
+    protected void setEpic(int id, Epic epic) {
         epics.put(id, epic);
     }
 
-    @Override
-    public void setSubTask(int id, SubTask subTask) {
+    protected void setSubTask(int id, SubTask subTask) {
         subTasks.put(id, subTask);
     }
 
@@ -190,14 +213,13 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    @Override
-    public void updateEpicTime() {
+    protected void updateEpicTime() {
         for (Epic epic : epics.values()) {
             LocalDateTime startTime = epic.getStartTime();
             long duration = 0;
             for (SubTask subTask : subTasks.values()) {
                 if (subTask.getEpicId().equals(epic.getId())) {
-                    if (startTime.equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+                    if (startTime.equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))) {
                         startTime = subTask.getStartTime();
                     }
                     if (subTask.getStartTime().isBefore(startTime)) {
@@ -212,38 +234,41 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
+
     public List<AbstractTask> getPrioritizedTasks() {
         return prioritizedListTasks;
     }
 
-    @Override
-    public void setPrioritizedTasks() {
+
+    protected void setPrioritizedTasks() {
         prioritizedTasks.clear();
         prioritizedListTasks.clear();
         for (SubTask subTask : subTasks.values())
-            if (!subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+            if (!subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))) {
                 prioritizedTasks.add(subTask);
             }
 
         for (Task task : tasks.values())
-            if (!task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+            if (!task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))) {
                 prioritizedTasks.add(task);
             }
 
         prioritizedListTasks.addAll(prioritizedTasks);
         for (SubTask subTask : subTasks.values())
-            if (subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC)))
+            if (subTask.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
                 prioritizedListTasks.add(subTask);
+            }
         for (Task task : tasks.values())
-            if (task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC)))
+            if (task.getStartTime().equals(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))) {
                 prioritizedListTasks.add(task);
+            }
+        validationTasks();
     }
 
-    public void validationTasks() {
+    protected void validationTasks() {
         LocalDateTime localDT = LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC);
         for (AbstractTask task : prioritizedTasks) {
-            if (task.getEndTime().isBefore(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))){
+            if (task.getEndTime().isBefore(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC))) {
                 task.setStartTime(LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC));
             }
             if (!task.getStartTime().isAfter(localDT)
@@ -253,5 +278,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
             localDT = task.getEndTime();
         }
+        updateEpicTime();
     }
 }

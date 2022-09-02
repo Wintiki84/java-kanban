@@ -27,9 +27,8 @@ public class Main {
         //InMemoryTaskManager managerTask = new InMemoryTaskManager();
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
         fileBackedTasksManager.readingTasks();
-        fileBackedTasksManager.setPrioritizedTasks();
-        fileBackedTasksManager.validationTasks();
-        fileBackedTasksManager.updateEpicTime();
+
+
 
         for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
