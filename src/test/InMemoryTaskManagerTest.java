@@ -9,7 +9,6 @@ import service.TaskManager;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -144,7 +143,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Override
     @Test
-    public void deleteTask(){
+    public void deleteTask() {
         final Task task = new Task("Task1", "Task1", Status.NEW,
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
 
@@ -194,7 +193,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Override
     @Test
-    public void getTask(){
+    public void getTask() {
         final Task task = new Task("Task1", "Task1", Status.NEW,
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
 
@@ -210,7 +209,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Override
     @Test
-    public void getEpic(){
+    public void getEpic() {
         final Epic epic = new Epic("Epic", "Epic", Status.NEW);
 
         taskManager.createEpic(epic);
@@ -225,14 +224,13 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Override
     @Test
-    public void getSubTask(){
+    public void getSubTask() {
         final Epic epic = new Epic("Epic", "Epic", Status.NEW);
         final SubTask subTask = new SubTask("SubTask1", "SubTask1", Status.NEW, epic.getEpicId(),
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
 
         taskManager.createEpic(epic);
         taskManager.createSubTask(subTask);
-
         subTasks = taskManager.getSubTasks();
 
         final SubTask savedSubTask = taskManager.getSubTask(subTask.getId());
@@ -253,32 +251,25 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
         taskManager.createTask(task);
         taskManager.createEpic(epic);
         taskManager.createSubTask(subTask);
-
         taskManager.deleteAllTask();
-
         tasks = taskManager.getTasks();
         epics = taskManager.getEpics();
         subTasks = taskManager.getSubTasks();
 
-
         assertNotNull(tasks, "Задачи на возвращаются.");
         assertNotNull(epics, "Задачи на возвращаются.");
         assertNotNull(subTasks, "Задачи на возвращаются.");
-
-        assertEquals(0, tasks.size(), "Неверное количество задач.");
+        assertEquals(0, tasks.size(), "Неверное количество Task.");
         assertEquals(null, tasks.get(task.getId()), "Задачи не совпадают.");
-
-        assertEquals(0, epics.size(), "Неверное количество задач.");
+        assertEquals(0, epics.size(), "Неверное количество Epic.");
         assertEquals(null, epics.get(task.getId()), "Задачи не совпадают.");
-
-        assertEquals(0, subTasks.size(), "Неверное количество задач.");
+        assertEquals(0, subTasks.size(), "Неверное количество SubTask.");
         assertEquals(null, subTasks.get(task.getId()), "Задачи не совпадают.");
     }
 
+    @Override
     @Test
     void getHistory() {
-        List<AbstractTask> history = new ArrayList<>();
-
         final Task task1 = new Task("Task1", "Task1", Status.NEW,
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
         taskManager.createTask(task1);
@@ -293,10 +284,43 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
         final SubTask subTask2 = new SubTask("SubTask2", "SubTask2", Status.NEW, epic.getEpicId(),
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
         taskManager.createSubTask(subTask2);
-
-        history = taskManager.getHistory();
+        List<AbstractTask> history = taskManager.getHistory();
 
         assertNotNull(history, "История не возвращаются.");
         assertEquals(0, history.size(), "Неверное количество задач в истории.");
+
+        taskManager.getTask(task1.getId());
+        taskManager.getTask(task2.getId());
+        taskManager.getEpic(epic.getId());
+        taskManager.getTask(task1.getId());
+        taskManager.getSubTask(subTask1.getId());
+        history = taskManager.getHistory();
+
+        assertEquals(4, history.size(), "Неверное количество задач.");
+        assertEquals(history.get(0), task2, "Задачи не совпадают.");
+        assertEquals(history.get(1), epic, "Задачи не совпадают.");
+        assertEquals(history.get(2), task1, "Задачи не совпадают.");
+        assertEquals(history.get(3), subTask1, "Задачи не совпадают.");
+
+        taskManager.deleteTask(task2.getId());
+        history = taskManager.getHistory();
+
+        assertEquals(3, history.size(), "Неверное количество задач.");
+        assertEquals(history.get(0), epic, "Задачи не совпадают.");
+        assertEquals(history.get(1), task1, "Задачи не совпадают.");
+        assertEquals(history.get(2), subTask1, "Задачи не совпадают.");
+
+        taskManager.deleteTask(task1.getId());
+        history = taskManager.getHistory();
+
+        assertEquals(2, history.size(), "Неверное количество задач.");
+        assertEquals(history.get(0), epic, "Задачи не совпадают.");
+        assertEquals(history.get(1), subTask1, "Задачи не совпадают.");
+
+        taskManager.deleteTask(subTask1.getId());
+        history = taskManager.getHistory();
+
+        assertEquals(1, history.size(), "Неверное количество задач.");
+        assertEquals(history.get(0), epic, "Задачи не совпадают.");
     }
 }

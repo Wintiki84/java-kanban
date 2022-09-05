@@ -75,7 +75,9 @@ public class AbstractTask {
         return duration;
     }
 
-    public LocalDateTime getEndTime() {return startTime.plusMinutes(duration); }
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration);
+    }
 
     public static AbstractTask fromString(String task) {
         String[] splitTask = task.split(",");
@@ -91,6 +93,26 @@ public class AbstractTask {
     public String toString() {
         return (id + "," + task + "," + name + "," + status + "," + description + "," + epicId + "," +
                 startTime + "," + duration);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        AbstractTask task = (AbstractTask) obj;
+        return (this.id == task.id
+                && (this.task == task.getTypeTask())
+                && (this.description.equals(task.getDescription()))
+                && (this.status == task.getStatus())
+                && (this.startTime.equals(task.getStartTime()))
+                && (this.duration == task.getDuration())
+        );
     }
 
 }

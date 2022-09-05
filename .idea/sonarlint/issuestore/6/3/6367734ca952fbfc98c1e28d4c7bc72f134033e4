@@ -1,0 +1,15 @@
+
+j
+java:S1192|"ODefine a constant instead of duplicating this literal "Null Pointer: " 6 times.(ìšË²ûÿÿÿÿ
+h
+java:S3776S"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Îö“„
+S	java:S106|"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+T	java:S106Œ"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+T	java:S106š"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+T	java:S106¤"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+T	java:S106¯"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+T	java:S106º"9Replace this use of System.out or System.err by a logger.(ìšË²ûÿÿÿÿ
+}
+java:S2178”"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Ÿ“Éß
+}
+java:S2178“"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ûÅÓý
