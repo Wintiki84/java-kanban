@@ -6,15 +6,16 @@ import model.Status;
 import org.junit.jupiter.api.Test;
 import service.FileBackedTasksManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class FileBackedTasksManagerTest extends InMemoryTaskManagerTest {
-    protected FileBackedTasksManager taskManager = new FileBackedTasksManager();
-    protected List<AbstractTask> history = new ArrayList<>();
+public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
+
+    public FileBackedTasksManagerTest() {
+        taskManager = new FileBackedTasksManager("tasksTest.csv");
+    }
 
     @Test
     void readingAnEmptyTaskList() {
@@ -53,7 +54,7 @@ public class FileBackedTasksManagerTest extends InMemoryTaskManagerTest {
     void ReadingTasksAnEmptyHistoryList() {
         taskManager.getTask(1);
         taskManager.readingTasks();
-        history = taskManager.getHistory();
+        List<AbstractTask> history = taskManager.getHistory();
 
         assertNotNull(history, "История на возвращаются.");
         assertEquals(0, history.size(), "Неверное количество задач в истории.");

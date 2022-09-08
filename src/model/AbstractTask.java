@@ -3,14 +3,13 @@ package model;
 import java.time.LocalDateTime;
 
 public class AbstractTask {
-    private int id;
-    private TypeTask task;
-    private final String name;
-    private final String description;
-    private Status status;
-    private int epicId;
-    private LocalDateTime startTime;
-    private long duration;
+    protected final String name;
+    protected final String description;
+    protected final TypeTask task;
+    protected int id;
+    protected Status status;
+    protected LocalDateTime startTime;
+    protected long duration;
 
     protected AbstractTask(TypeTask typeTask, String name, String description, Status status,
                            LocalDateTime startTime, long duration) {
@@ -22,25 +21,20 @@ public class AbstractTask {
         this.duration = duration;
     }
 
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setEpicId(Integer epicId) {
-        this.epicId = epicId;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
+    public static AbstractTask fromString(String task) {
+        String[] splitTask = task.split(",");
+        if (!TypeTask.valueOf(splitTask[1]).equals(TypeTask.SUB_TASK)) {
+            AbstractTask abstractTask = new AbstractTask(TypeTask.valueOf(splitTask[1]), splitTask[2],
+                    splitTask[4], Status.valueOf(splitTask[3]), LocalDateTime.parse(splitTask[6]),
+                    Long.parseLong(splitTask[7]));
+            abstractTask.setId(Integer.parseInt(splitTask[0]));
+            return abstractTask;
+        } else {
+            AbstractTask abstractTask = new AbstractTask(TypeTask.valueOf(splitTask[1]), splitTask[2],
+                    splitTask[4], Status.valueOf(splitTask[3]), LocalDateTime.parse(splitTask[6]),
+                    Long.parseLong(splitTask[7]));
+            return abstractTask;
+        }
     }
 
     public String getName() {
@@ -55,12 +49,16 @@ public class AbstractTask {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Status getStatus() {
         return status;
     }
 
-    public Integer getEpicId() {
-        return epicId;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public TypeTask getTypeTask() {
@@ -71,27 +69,25 @@ public class AbstractTask {
         return startTime;
     }
 
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
     public long getDuration() {
         return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public LocalDateTime getEndTime() {
         return startTime.plusMinutes(duration);
     }
 
-    public static AbstractTask fromString(String task) {
-        String[] splitTask = task.split(",");
-        AbstractTask abstractTask = new AbstractTask(TypeTask.valueOf(splitTask[1]), splitTask[2],
-                splitTask[4], Status.valueOf(splitTask[3]), LocalDateTime.parse(splitTask[6]),
-                Integer.parseInt(splitTask[7]));
-        abstractTask.setId(Integer.parseInt(splitTask[0]));
-        abstractTask.setEpicId(Integer.parseInt(splitTask[5]));
-        return abstractTask;
-    }
-
     @Override
     public String toString() {
-        return (id + "," + task + "," + name + "," + status + "," + description + "," + epicId + "," +
+        return (id + "," + task + "," + name + "," + status + "," + description + ",," +
                 startTime + "," + duration);
     }
 

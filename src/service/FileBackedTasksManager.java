@@ -12,9 +12,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final String COMMA = ",";
     private static final String SRC_PATH = "src/";
     private static final String DATA_PATH = "data";
-    private static final String FILE_NAME = "tasks.csv";
     private static final String TABLE_HEADER = "id,type,name,status,description,epic,datetime,description";
     private static final String NEW_LINE = "\n";
+    private String FileName = "tasks.csv";
+    private Path path = Paths.get(SRC_PATH, DATA_PATH, FileName);
+
+    public FileBackedTasksManager(String fileName) {
+        FileName = fileName;
+        path = Paths.get(SRC_PATH, DATA_PATH, FileName);
+    }
+
+    public FileBackedTasksManager() {
+    }
 
     @Override
     public Task createTask(Task task) {
@@ -106,9 +115,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return subTask;
     }
 
+    public void setFileName(String fileName) {
+        FileName = fileName;
+    }
 
     private void save() {
-        Path tasksFILE_PATH = Paths.get(SRC_PATH, DATA_PATH, FILE_NAME);
         StringBuilder stringBuilderTasks = new StringBuilder();
         stringBuilderTasks.append(TABLE_HEADER + NEW_LINE);
         for (Task task : getTasks().values()) {
@@ -136,7 +147,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         stringBuilderTasks.append(IdGenerator.getTaskId());
         String stingTasks = String.valueOf(stringBuilderTasks);
 
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(tasksFILE_PATH.toString()));) {
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path.toString()))) {
             fileWriter.write(stingTasks);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -146,12 +157,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void readingTasks() {
-        Path tasksFILE_PATH = Paths.get(SRC_PATH, DATA_PATH, FILE_NAME);
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(tasksFILE_PATH.toString()));) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(path.toString()))) {
             String stringTask;
             while ((stringTask = fileReader.readLine()) != null) {
                 if (!stringTask.equals(TABLE_HEADER) & !stringTask.equals("")) {
-                    if (stringTask.indexOf(COMMA) != -1) {
+                    if (stringTask.contains(COMMA)) {
                         AbstractTask abstractTask = AbstractTask.fromString(stringTask);
                         switch (abstractTask.getTypeTask()) {
                             case TASK:
@@ -161,7 +171,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                                         abstractTask.getStartTime(),
                                         abstractTask.getDuration());
                                 task.setId(abstractTask.getId());
-                                task.setEpicId(abstractTask.getEpicId());
                                 setTask(abstractTask.getId(), task);
                                 continue;
                             case EPIC:
@@ -169,24 +178,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                                         abstractTask.getDescription(),
                                         abstractTask.getStatus());
                                 epic.setId(abstractTask.getId());
-                                epic.setEpicId(abstractTask.getEpicId());
                                 setEpic(abstractTask.getId(), epic);
                                 continue;
                             case SUB_TASK:
-                                SubTask subTask = new SubTask(abstractTask.getName(),
-                                        abstractTask.getDescription(),
-                                        abstractTask.getStatus(),
-                                        abstractTask.getEpicId(),
-                                        abstractTask.getStartTime(),
-                                        abstractTask.getDuration());
-                                subTask.setId(abstractTask.getId());
-                                subTask.setEpicId(abstractTask.getEpicId());
-                                setSubTask(abstractTask.getId(), subTask);
+                                SubTask subTaskString = SubTask.fromStringSubTask(stringTask);
+                                SubTask subTask = new SubTask(subTaskString.getName(),
+                                        subTaskString.getDescription(),
+                                        subTaskString.getStatus(),
+                                        subTaskString.getEpicId(),
+                                        subTaskString.getStartTime(),
+                                        subTaskString.getDuration());
+                                subTask.setId(subTaskString.getId());
+                                subTask.setEpicId(subTask.getEpicId());
+                                setSubTask(subTaskString.getId(), subTask);
                                 continue;
                             default:
                                 continue;
                         }
-                    } else if (stringTask.indexOf(COLON) != -1) {
+                    } else if (stringTask.contains(COLON)) {
                         String[] splitTask = stringTask.split(COLON);
                         TypeTask typeTask = TypeTask.fromString(splitTask[1]);
                         switch (typeTask) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Epic extends AbstractTask {
     private final List<SubTask> subTasks = new ArrayList<>();
-    //private final LocalDateTime localDT = LocalDateTime.of(0000, 0, 0, 0, 0);
+    protected LocalDateTime endTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC);
 
     public Epic(String name, String description, Status status) {
         super(TypeTask.EPIC, name, description, status,
@@ -22,5 +22,14 @@ public class Epic extends AbstractTask {
 
     public List<SubTask> getSubTasks() {
         return subTasks;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

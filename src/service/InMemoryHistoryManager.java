@@ -1,13 +1,12 @@
 package service;
 
 import model.AbstractTask;
-
 import model.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
@@ -21,8 +20,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        removeNode(nodeMap.get(id));
-        nodeMap.remove(id);
+        if (null != nodeMap.get(id)) {
+            removeNode(nodeMap.get(id));
+            nodeMap.remove(id);
+        }
     }
 
     @Override
@@ -48,7 +49,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             if (nodeMap.containsKey(task.getId())) {
                 removeNode(nodeMap.get(task.getId()));
                 nodeMap.values().remove(task.getId());
-                //nodeMap.remove(task.getId());
             }
             for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
                 if (nodeFirst.getNext() == null) {
