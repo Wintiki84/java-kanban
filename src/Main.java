@@ -1,9 +1,10 @@
-import model.AbstractTask;
-import service.FileBackedTasksManager;
+import service.HttpTaskServer;
+
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //весь код в этом классе только для проверки роботоспособности (временный)
         /*System.out.println("Поехали!");
         InMemoryTaskManager managerTask = new FileBackedTasksManager();
@@ -25,7 +26,7 @@ public class Main {
         Task task = new Task( "Важная задача 1", "Очень важная", status);
         managerTask.createTask(task);*/
         //InMemoryTaskManager managerTask = new InMemoryTaskManager();
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+       /* FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
         fileBackedTasksManager.readingTasks();
 
 
@@ -76,7 +77,9 @@ public class Main {
         System.out.println("\n");
         for (AbstractTask tasks : fileBackedTasksManager.getPrioritizedTasks()) {
             System.out.println("Задача № " + tasks.getId() + ": " + tasks.getStartTime());
-        }
+        }*/
+        HttpTaskServer httpTaskServer = new HttpTaskServer();
+        httpTaskServer.startHttpTaskServer();
 
     }
 }

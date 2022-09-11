@@ -20,9 +20,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public FileBackedTasksManager(String fileName) {
         FileName = fileName;
         path = Paths.get(SRC_PATH, DATA_PATH, FileName);
+        readingTasks();
     }
 
     public FileBackedTasksManager() {
+        readingTasks();
     }
 
     @Override

@@ -1,14 +1,19 @@
 package service;
 
-public class Managers {
-    private final TaskManager taskManager = new InMemoryTaskManager();
-    private final HistoryManager historyManager = new InMemoryHistoryManager();
+public final class Managers {
+    private static final TaskManager taskManager = new InMemoryTaskManager();
+    private static final HistoryManager historyManager = new InMemoryHistoryManager();
+    private static final FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
 
-    public TaskManager getDefault() {
+    public static TaskManager getDefaultTaskManager() {
         return taskManager;
     }
 
-    public HistoryManager getDefaultHistory() {
+    public static HistoryManager getDefaultHistory() {
         return historyManager;
+    }
+
+    public static FileBackedTasksManager getDefaultFileBackedTasksManager() {
+        return fileBackedTasksManager;
     }
 }

@@ -1,0 +1,10 @@
+
+a
+java:S1301("KReplace this "switch" statement by "if" statements to increase readability.(ãØ´ú
+K
+java:S1191"5Use classes from the Java API instead of Sun classes.(üÕÙä
+N	java:S106"9Replace this use of System.out or System.err by a logger.(Ë”¾
+a	java:S128)"LEnd this switch case with an unconditional break, return or throw statement.(ÂŞº¬
+Q	java:S125<"<This block of commented-out lines of code should be removed.(•ò¶
+I
+java:S1068"3Remove this unused "DEFAULT_CHARSET" private field.(Ö¦ş®
