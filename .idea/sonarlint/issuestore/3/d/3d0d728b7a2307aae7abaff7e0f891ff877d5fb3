@@ -1,0 +1,22 @@
+
+P
+java:S1141!"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+K
+java:S1191"5Use classes from the Java API instead of Sun classes.(üÕÙä
+S	java:S106"9Replace this use of System.out or System.err by a logger.(‰çÊºøÿÿÿÿ
+N	java:S106 "9Replace this use of System.out or System.err by a logger.(€Ã˜Ï
+N	java:S106+"9Replace this use of System.out or System.err by a logger.(¼´¡œ
+N	java:S1060"9Replace this use of System.out or System.err by a logger.(Ø†À
+N	java:S1067"9Replace this use of System.out or System.err by a logger.(”Ù¥†
+M	java:S106C"9Replace this use of System.out or System.err by a logger.(û€’^
+N	java:S106E"9Replace this use of System.out or System.err by a logger.(€Ã˜Ï
+S	java:S106L"9Replace this use of System.out or System.err by a logger.(ĞÕ±Ñùÿÿÿÿ
+S	java:S106R"9Replace this use of System.out or System.err by a logger.(Ÿ…ëÎşÿÿÿÿ
+N	java:S106W"9Replace this use of System.out or System.err by a logger.(ÕÊ¼ã
+S	java:S106Z"9Replace this use of System.out or System.err by a logger.(—â„ùÿÿÿÿ
+S	java:S106d"9Replace this use of System.out or System.err by a logger.(‹¤şÿÿÿÿ
+N	java:S106h"9Replace this use of System.out or System.err by a logger.(Å—ô©
+S	java:S106q"9Replace this use of System.out or System.err by a logger.(ãî¼şúÿÿÿÿ
+S	java:S106r"9Replace this use of System.out or System.err by a logger.(³Ú™—úÿÿÿÿ
+N	java:S106s"9Replace this use of System.out or System.err by a logger.(ÍÛŠ¡
+N	java:S106x"9Replace this use of System.out or System.err by a logger.(Ëñƒæ

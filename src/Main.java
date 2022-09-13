@@ -1,36 +1,53 @@
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
+import service.HTTPTaskManager;
 import service.HttpTaskServer;
+import service.KVServer;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         //весь код в этом классе только для проверки роботоспособности (временный)
-        /*System.out.println("Поехали!");
-        InMemoryTaskManager managerTask = new FileBackedTasksManager();
-        Status status = Status.NEW;
+        KVServer kvServer = new KVServer();
+        System.out.println("Поехали!");
+        HttpTaskServer httpTaskServer = new HttpTaskServer();
+        httpTaskServer.startHttpTaskServer();
+        kvServer.start();
+        HTTPTaskManager managerTask = new HTTPTaskManager("http://localhost:8078");
 
-        Epic epic1 = new Epic("Важный эпик 1", "Очень важный", status);
+
+        Epic epic1 = new Epic("Важный эпик 1", "Очень важный", Status.NEW);
         managerTask.createEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача 1 важного эпика 1", "Очень важная подзадача",
-                status, 1);
+        SubTask subTask1 = new SubTask("SubTask1", "SubTask1", Status.NEW, epic1.getId(),
+                LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
         managerTask.createSubTask(subTask1);
-        SubTask subTask2 = new SubTask("Подзадача 2 важного эпика 1", "Очень важная подзадача",
-                status, 1);
+        SubTask subTask2 = new SubTask("SubTask1", "SubTask1", Status.NEW, epic1.getId(),
+                LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
         managerTask.createSubTask(subTask2);
-        Epic epic2 = new Epic("Важный эпик 2", "Очень важный", status);
+        Epic epic2 = new Epic("Важный эпик 2", "Очень важный", Status.NEW);
         managerTask.createEpic(epic2);
-        SubTask subTask3 = new SubTask("Подзадача 1 важного эпика 2", "Очень важная подзадача",
-                status, 4);
+        SubTask subTask3 = new SubTask("SubTask1", "SubTask1", Status.NEW, epic2.getId(),
+                LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
         managerTask.createSubTask(subTask3);
-        Task task = new Task( "Важная задача 1", "Очень важная", status);
-        managerTask.createTask(task);*/
+        Task task = new Task("Task1", "Task1", Status.NEW,
+                LocalDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneOffset.UTC), 0);
+        managerTask.createTask(task);
         //InMemoryTaskManager managerTask = new InMemoryTaskManager();
-       /* FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
-        fileBackedTasksManager.readingTasks();
+
+        managerTask.readingTasks();
+        kvServer.stop();
 
 
-        for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
+
+
+       /* for (AbstractTask tasks : fileBackedTasksManager.getHistory()) {
             System.out.println("Задача № " + tasks.getId());
         }
         System.out.println("\n");
@@ -78,8 +95,6 @@ public class Main {
         for (AbstractTask tasks : fileBackedTasksManager.getPrioritizedTasks()) {
             System.out.println("Задача № " + tasks.getId() + ": " + tasks.getStartTime());
         }*/
-        HttpTaskServer httpTaskServer = new HttpTaskServer();
-        httpTaskServer.startHttpTaskServer();
 
     }
 }

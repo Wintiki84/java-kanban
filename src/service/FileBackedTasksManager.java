@@ -20,11 +20,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public FileBackedTasksManager(String fileName) {
         FileName = fileName;
         path = Paths.get(SRC_PATH, DATA_PATH, FileName);
-        readingTasks();
-    }
-
-    public FileBackedTasksManager() {
-        readingTasks();
     }
 
     @Override
@@ -121,7 +116,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         FileName = fileName;
     }
 
-    private void save() {
+    protected void save() {
         StringBuilder stringBuilderTasks = new StringBuilder();
         stringBuilderTasks.append(TABLE_HEADER + NEW_LINE);
         for (Task task : getTasks().values()) {
@@ -140,8 +135,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
 
         stringBuilderTasks.append("\n");
-        for (AbstractTask Task : getHistory()) {
-            stringBuilderTasks.append(Task.getId() + COLON + Task.getTypeTask())
+        for (AbstractTask task : getHistory()) {
+            stringBuilderTasks.append(task.getId() + COLON + task.getTypeTask())
                     .append(NEW_LINE);
         }
 

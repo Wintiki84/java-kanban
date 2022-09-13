@@ -1,7 +1,7 @@
 
-h
-java:S3776S"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Îö“„
-}
-java:S2178€"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Ÿ“Éß
-}
-java:S2178ÿ"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ûÅÓı
+o
+java:S3776S"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Îö“„8©‡ú­³0
+„
+java:S2178€"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Ÿ“Éß8ˆú­³0
+„
+java:S2178ÿ"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ûÅÓı8ˆú­³0

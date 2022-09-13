@@ -3,18 +3,29 @@ package test;
 import model.AbstractTask;
 import model.Epic;
 import model.Status;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import service.FileBackedTasksManager;
+import service.HTTPTaskManager;
+import service.KVServer;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
+public class HTTPTaskManagerTest extends TaskManagerTest<HTTPTaskManager> {
 
-    public FileBackedTasksManagerTest() {
-        taskManager = new FileBackedTasksManager("tasksTest.csv");
+    KVServer kvServer = new KVServer();
+
+    public HTTPTaskManagerTest() throws IOException {
+        kvServer.start();
+        taskManager = new HTTPTaskManager("http://localhost:8078");
+    }
+
+    @AfterEach
+    public void stopKVServer() {
+        kvServer.stop();
     }
 
     @Test

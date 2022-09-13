@@ -10,12 +10,12 @@ import java.util.*;
 import static model.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected final Map<Integer, Task> tasks = new HashMap<>();
-    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
-    protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
     protected final TreeSet<AbstractTask> prioritizedTasks = new TreeSet<>(new DataComparatorTask());
     protected final List<AbstractTask> prioritizedListTasks = new ArrayList<>();
+    protected Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
 
     @Override
     public Map<Integer, Task> getTasks() {

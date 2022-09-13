@@ -1,10 +1,21 @@
 
-a
-java:S1301("KReplace this "switch" statement by "if" statements to increase readability.(ãØ´ú
+n
+java:S1301Ã"KReplace this "switch" statement by "if" statements to increase readability.(£­œ÷ıÿÿÿÿ8‹ù‹³0
+n
+java:S1301Ú"KReplace this "switch" statement by "if" statements to increase readability.(£­œ÷ıÿÿÿÿ8Œù‹³0
 K
-java:S1191"5Use classes from the Java API instead of Sun classes.(üÕÙä
-N	java:S106"9Replace this use of System.out or System.err by a logger.(Ë”¾
-a	java:S128)"LEnd this switch case with an unconditional break, return or throw statement.(ÂŞº¬
-Q	java:S125<"<This block of commented-out lines of code should be removed.(•ò¶
+java:S1191"5Use classes from the Java API instead of Sun classes.(üÕÙä
+N	java:S106!"9Replace this use of System.out or System.err by a logger.(Ë”¾
+m	java:S128E"LEnd this switch case with an unconditional break, return or throw statement.(œø›àüÿÿÿÿ8ü‹³0
+m	java:S128="LEnd this switch case with an unconditional break, return or throw statement.(›ÜÂûÿÿÿÿ8ü‹³0
+m	java:S128,"LEnd this switch case with an unconditional break, return or throw statement.(îÏ‹—üÿÿÿÿ8ü‹³0
+m	java:S128x"LEnd this switch case with an unconditional break, return or throw statement.(œø›àüÿÿÿÿ8Úü‹³0
+m	java:S128p"LEnd this switch case with an unconditional break, return or throw statement.(›ÜÂûÿÿÿÿ8Ûü‹³0
+m	java:S128_"LEnd this switch case with an unconditional break, return or throw statement.(îÏ‹—üÿÿÿÿ8İü‹³0
+n	java:S128«"LEnd this switch case with an unconditional break, return or throw statement.(œø›àüÿÿÿÿ8Œı‹³0
+n	java:S128£"LEnd this switch case with an unconditional break, return or throw statement.(›ÜÂûÿÿÿÿ8ı‹³0
+n	java:S128’"LEnd this switch case with an unconditional break, return or throw statement.(îÏ‹—üÿÿÿÿ8ı‹³0
+n	java:S128Ä"LEnd this switch case with an unconditional break, return or throw statement.(îÏ‹—üÿÿÿÿ8Âı‹³0
+n	java:S128Û"LEnd this switch case with an unconditional break, return or throw statement.(îÏ‹—üÿÿÿÿ8Õı‹³0
 I
-java:S1068"3Remove this unused "DEFAULT_CHARSET" private field.(Ö¦ş®
+java:S1068"3Remove this unused "DEFAULT_CHARSET" private field.(Ö¦ş®

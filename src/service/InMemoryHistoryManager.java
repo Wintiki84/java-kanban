@@ -27,6 +27,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
+    public void deleteHistory() {
+        history.clear();
+        nodeMap.clear();
+    }
+
+    @Override
     public List<AbstractTask> getHistory() {
         getTasks();
         return history;
@@ -42,23 +48,25 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void linkLast(AbstractTask task) {
-        if (nodeMap.isEmpty()) {
-            Node<AbstractTask> node = new Node(null, task, null);
-            nodeMap.put(task.getId(), node);
-        } else {
-            if (nodeMap.containsKey(task.getId())) {
-                removeNode(nodeMap.get(task.getId()));
-                nodeMap.values().remove(task.getId());
-            }
-            for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
-                if (nodeFirst.getNext() == null) {
-                    Node<AbstractTask> node = new Node(nodeFirst, task, null);
-                    nodeMap.put(task.getId(), node);
-                    nodeFirst.setNext(node);
-                    break;
+        if (null != task) {
+            if (nodeMap.isEmpty()) {
+                Node<AbstractTask> node = new Node(null, task, null);
+                nodeMap.put(task.getId(), node);
+            } else {
+                if (nodeMap.containsKey(task.getId())) {
+                    removeNode(nodeMap.get(task.getId()));
+                    nodeMap.values().remove(task.getId());
                 }
-            }
+                for (Node<AbstractTask> nodeFirst : nodeMap.values()) {
+                    if (nodeFirst.getNext() == null) {
+                        Node<AbstractTask> node = new Node(nodeFirst, task, null);
+                        nodeMap.put(task.getId(), node);
+                        nodeFirst.setNext(node);
+                        break;
+                    }
+                }
 
+            }
         }
 
     }
