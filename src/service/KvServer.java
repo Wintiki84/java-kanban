@@ -11,13 +11,13 @@ import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class KVServer {
+public class KvServer {
     public static final int PORT = 8078;
     private final String apiToken;
     private final HttpServer server;
     private final Map<String, String> data = new HashMap<>();
 
-    public KVServer() throws IOException {
+    public KvServer() throws IOException {
         apiToken = generateApiToken();
         server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
         server.createContext("/register", this::register);

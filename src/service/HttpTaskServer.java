@@ -12,14 +12,11 @@ import model.Task;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class HttpTaskServer {
     private static final int PORT = 8080;
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static Gson gson = new Gson();
-    private static FileBackedTasksManager fileBackedTasksManager = Managers.getDefaultFileBackedTasksManager();
+    private FileBackedTasksManager fileBackedTasksManager = Managers.getDefaultFileBackedTasksManager();
 
     public void startHttpTaskServer() throws IOException {
         HttpServer httpServer = HttpServer.create();
@@ -34,7 +31,7 @@ public class HttpTaskServer {
     }
 
 
-    static class TaskHandler implements HttpHandler {
+    public class TaskHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             String response;
@@ -43,16 +40,16 @@ public class HttpTaskServer {
             switch (RequestMethod.valueOf(method)) {
                 case GET:
                     if (query == null) {
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getTasks());
-                        response = tasksSerialized;
+                        String serializedTasks = gson.toJson(fileBackedTasksManager.getTasks());
+                        response = serializedTasks;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
                         }
                     } else {
-                        Integer taskId = Integer.valueOf(query);
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getTask(taskId));
-                        response = tasksSerialized;
+                        int taskId = Integer.valueOf(query);
+                        String serializedTask = gson.toJson(fileBackedTasksManager.getTask(taskId));
+                        response = serializedTask;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
@@ -60,8 +57,8 @@ public class HttpTaskServer {
                     }
                 case POST:
                     Task task = gson.fromJson(query, Task.class);
-                    String tasksSerialized = gson.toJson(fileBackedTasksManager.createTask(task));
-                    response = tasksSerialized;
+                    String serializedTask = gson.toJson(fileBackedTasksManager.createTask(task));
+                    response = serializedTask;
                     httpExchange.sendResponseHeaders(201, 0);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
@@ -85,7 +82,7 @@ public class HttpTaskServer {
         }
     }
 
-    static class EpicHandler implements HttpHandler {
+    public class EpicHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             String response;
@@ -94,16 +91,16 @@ public class HttpTaskServer {
             switch (RequestMethod.valueOf(method)) {
                 case GET:
                     if (query == null) {
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getEpics());
-                        response = tasksSerialized;
+                        String serializedEpics = gson.toJson(fileBackedTasksManager.getEpics());
+                        response = serializedEpics;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
                         }
                     } else {
                         Integer taskId = Integer.valueOf(query);
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getEpic(taskId));
-                        response = tasksSerialized;
+                        String serializedEpic = gson.toJson(fileBackedTasksManager.getEpic(taskId));
+                        response = serializedEpic;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
@@ -111,8 +108,8 @@ public class HttpTaskServer {
                     }
                 case POST:
                     Epic epic = gson.fromJson(query, Epic.class);
-                    String tasksSerialized = gson.toJson(fileBackedTasksManager.createEpic(epic));
-                    response = tasksSerialized;
+                    String serializedEpic = gson.toJson(fileBackedTasksManager.createEpic(epic));
+                    response = serializedEpic;
                     httpExchange.sendResponseHeaders(201, 0);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
@@ -136,7 +133,7 @@ public class HttpTaskServer {
         }
     }
 
-    static class SubTaskHandler implements HttpHandler {
+    public class SubTaskHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             String response;
@@ -145,16 +142,16 @@ public class HttpTaskServer {
             switch (RequestMethod.valueOf(method)) {
                 case GET:
                     if (query == null) {
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getSubTasks());
-                        response = tasksSerialized;
+                        String serializedSubTasks = gson.toJson(fileBackedTasksManager.getSubTasks());
+                        response = serializedSubTasks;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
                         }
                     } else {
                         Integer taskId = Integer.valueOf(query);
-                        String tasksSerialized = gson.toJson(fileBackedTasksManager.getSubTask(taskId));
-                        response = tasksSerialized;
+                        String serializedSubTask = gson.toJson(fileBackedTasksManager.getSubTask(taskId));
+                        response = serializedSubTask;
                         httpExchange.sendResponseHeaders(200, 0);
                         try (OutputStream os = httpExchange.getResponseBody()) {
                             os.write(response.getBytes());
@@ -162,8 +159,8 @@ public class HttpTaskServer {
                     }
                 case POST:
                     SubTask subTask = gson.fromJson(query, SubTask.class);
-                    String tasksSerialized = gson.toJson(fileBackedTasksManager.createSubTask(subTask));
-                    response = tasksSerialized;
+                    String serializedSubTask = gson.toJson(fileBackedTasksManager.createSubTask(subTask));
+                    response = serializedSubTask;
                     httpExchange.sendResponseHeaders(201, 0);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
@@ -187,15 +184,15 @@ public class HttpTaskServer {
         }
     }
 
-    static class HistoryHandler implements HttpHandler {
+    public class HistoryHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             String response;
             String method = httpExchange.getRequestMethod();
             switch (RequestMethod.valueOf(method)) {
                 case GET:
-                    String tasksSerialized = gson.toJson(fileBackedTasksManager.getHistory());
-                    response = tasksSerialized;
+                    String serializedHistory = gson.toJson(fileBackedTasksManager.getHistory());
+                    response = serializedHistory;
                     httpExchange.sendResponseHeaders(200, 0);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
@@ -210,15 +207,15 @@ public class HttpTaskServer {
         }
     }
 
-    static class TasksHandler implements HttpHandler {
+    public class TasksHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             String response;
             String method = httpExchange.getRequestMethod();
             switch (RequestMethod.valueOf(method)) {
                 case GET:
-                    String tasksSerialized = gson.toJson(fileBackedTasksManager.getPrioritizedTasks());
-                    response = tasksSerialized;
+                    String serializedPrioritizedTasks = gson.toJson(fileBackedTasksManager.getPrioritizedTasks());
+                    response = serializedPrioritizedTasks;
                     httpExchange.sendResponseHeaders(200, 0);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());

@@ -1,13 +1,13 @@
 
 n	java:S135Ÿ"YReduce the total number of break and continue statements in this loop to use at most one.(òío
 h	java:S116"SRename this field "FileName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òç×”
-c
-java:S2147—"ECombine this catch with the one at line 149, which has the same body.(ï­£Ä8¸¡„È³0
-o
-java:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Æ‰Â/8º¡„È³0
-9
-java:S3626Ô"Remove this redundant jump.(İí¦8»¡„È³0
-c
-java:S2147Ø"ECombine this catch with the one at line 214, which has the same body.(ï­£Ä8»¡„È³0
-‰
-java:S2178 "fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Èõ‰ùÿÿÿÿÿ8½¡„È³0
+\
+java:S2147—"ECombine this catch with the one at line 149, which has the same body.(ï­£Ä
+h
+java:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Æ‰Â/
+2
+java:S3626Ô"Remove this redundant jump.(İí¦
+\
+java:S2147Ø"ECombine this catch with the one at line 214, which has the same body.(ï­£Ä
+‚
+java:S2178 "fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Èõ‰ùÿÿÿÿÿ

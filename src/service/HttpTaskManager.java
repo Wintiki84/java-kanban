@@ -14,19 +14,18 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HTTPTaskManager extends FileBackedTasksManager {
+public class HttpTaskManager extends FileBackedTasksManager {
     private static Gson gson = new Gson();
     protected Map<Integer, TypeTask> history = new HashMap<>();
-    private KVTaskClient kvTaskClient;
+    private KvTaskClient kvTaskClient;
 
-    public HTTPTaskManager(String uri) {
+    public HttpTaskManager(String uri) {
         super("tasksTest.csv");
-        kvTaskClient = new KVTaskClient(uri);
+        kvTaskClient = new KvTaskClient(uri);
     }
 
     @Override
     public void save() {
-
         for (AbstractTask task : getHistory()) {
             history.put(task.getId(), task.getTypeTask());
         }

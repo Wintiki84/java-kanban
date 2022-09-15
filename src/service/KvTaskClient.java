@@ -6,14 +6,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class KVTaskClient {
+public class KvTaskClient {
     private String apiToken;
-    private String KVServerAddress;
+    private String kvServerAddress;
 
-    public KVTaskClient(String KVServerAddress) {
-        this.KVServerAddress = KVServerAddress;
+    public KvTaskClient(String kvServerAddress) {
+        this.kvServerAddress = kvServerAddress;
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create(KVServerAddress + "/register");
+        URI url = URI.create(kvServerAddress + "/register");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .header("Accept", "application/json")
@@ -37,7 +37,7 @@ public class KVTaskClient {
     public void put(String key, String json) {
         HttpClient client = HttpClient.newHttpClient();
         String se = json.toString();
-        URI url = URI.create(KVServerAddress + "/save/" + key + "?API_TOKEN=" + key);
+        URI url = URI.create(kvServerAddress + "/save/" + key + "?API_TOKEN=" + key);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .header("Accept", "application/json")
@@ -55,7 +55,7 @@ public class KVTaskClient {
 
     public String load(String key) {
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create(KVServerAddress + "/load/" + key + "?API_TOKEN=" + key);
+        URI url = URI.create(kvServerAddress + "/load/" + key + "?API_TOKEN=" + key);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .header("Accept", "application/json")

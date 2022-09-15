@@ -2,9 +2,9 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
-import service.HTTPTaskManager;
+import service.HttpTaskManager;
 import service.HttpTaskServer;
-import service.KVServer;
+import service.KvServer;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -15,12 +15,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         //весь код в этом классе только для проверки роботоспособности (временный)
-        KVServer kvServer = new KVServer();
+        KvServer kvServer = new KvServer();
         System.out.println("Поехали!");
         HttpTaskServer httpTaskServer = new HttpTaskServer();
         httpTaskServer.startHttpTaskServer();
         kvServer.start();
-        HTTPTaskManager managerTask = new HTTPTaskManager("http://localhost:8078");
+        HttpTaskManager managerTask = new HttpTaskManager("http://localhost:8078");
 
 
         Epic epic1 = new Epic("Важный эпик 1", "Очень важный", Status.NEW);

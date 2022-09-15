@@ -3,4 +3,4 @@
 java:S1192"lDefine a constant instead of duplicating this literal "Задачи на возвращаются." 4 times.(���
 �
 java:S1192"rDefine a constant instead of duplicating this literal "Неверное количество задач." 4 times.(��ە
-o	java:S1006"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(㥃������8�Ցȳ0
+h	java:S1006"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(㥃������

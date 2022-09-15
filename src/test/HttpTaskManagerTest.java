@@ -5,8 +5,8 @@ import model.Epic;
 import model.Status;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import service.HTTPTaskManager;
-import service.KVServer;
+import service.HttpTaskManager;
+import service.KvServer;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,13 +14,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class HTTPTaskManagerTest extends TaskManagerTest<HTTPTaskManager> {
+public class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
 
-    KVServer kvServer = new KVServer();
+    KvServer kvServer = new KvServer();
 
-    public HTTPTaskManagerTest() throws IOException {
+    public HttpTaskManagerTest() throws IOException {
         kvServer.start();
-        taskManager = new HTTPTaskManager("http://localhost:8078");
+        taskManager = new HttpTaskManager("http://localhost:8078");
     }
 
     @AfterEach
